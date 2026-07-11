@@ -1,0 +1,37 @@
+-- sample.decTest: a small hand-written subset to exercise the runner.
+-- The full IBM General Decimal Arithmetic suite (~81,300 cases) is fetched
+-- with `make testdata`. Format: https://speleotrove.com/decimal/dtfile.html
+version: sample 1.0
+extended: 1
+precision: 9
+rounding: half_even
+maxExponent: 384
+minExponent: -383
+
+samadd001 add 1 1 -> 2
+samadd002 add 1.1 2.2 -> 3.3
+samadd003 add 1.00 2.000 -> 3.000
+samadd004 add -5 3 -> -2
+samadd005 add 12345678 1 -> 12345679
+samadd006 add 1.00 -1.00 -> 0.00
+
+samsub001 subtract 5 3.3 -> 1.7
+samsub002 subtract 0 4 -> -4
+
+sammul001 multiply 3 4 -> 12
+sammul002 multiply 1.5 1.5 -> 2.25
+sammul003 multiply -2 2.5 -> -5.0
+
+samcmp001 compare 1 2 -> -1
+samcmp002 compare 2 2 -> 0
+samcmp003 compare 3.0 2 -> 1
+
+samqua001 quantize 2.34 0.01 -> 2.34
+samqua002 quantize 2.345 0.01 -> 2.34 Inexact Rounded
+samqua003 quantize 2.355 0.01 -> 2.36 Inexact Rounded
+samqua004 quantize 2 0.00 -> 2.00
+
+samabs001 abs -7.5 -> 7.5
+samabs002 abs 7.5 -> 7.5
+sammin001 minus 3.3 -> -3.3
+samplu001 plus -3.3 -> -3.3

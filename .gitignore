@@ -1,0 +1,5 @@
+# Downloaded IBM test suite (fetch with `make testdata`; not committed).
+/dectest/testdata/suite/
+
+# Go fuzz corpus.
+/testdata/fuzz/
