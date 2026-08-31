@@ -191,3 +191,14 @@ func (c Context) SameQuantum(a, b Decimal) (Decimal, Condition) {
 	}
 	return New(0, 0), 0
 }
+
+// Cmp orders a and b numerically: -1 when a < b, 0 when they are equal, and
+// +1 when a > b, with -Infinity < finite < +Infinity. Values that differ only
+// in exponent are equal, so 1.0 equals 1.00, and a zero equals a zero of
+// either sign. ok is false when either operand is a NaN, which has no order.
+func (a Decimal) Cmp(b Decimal) (int, bool) {
+	if a.isNaN() || b.isNaN() {
+		return 0, false
+	}
+	return cmpDecimal(a, b), true
+}
