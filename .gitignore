@@ -3,3 +3,6 @@
 
 # Go fuzz corpus.
 /testdata/fuzz/
+
+# Personal Claude Code settings.
+/.claude/settings.local.json
