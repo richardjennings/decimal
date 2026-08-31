@@ -123,3 +123,35 @@ func toSci(neg bool, digits string, exp int32) string {
 	}
 	return b.String()
 }
+
+// StringPlain returns d in plain notation: no exponent marker whatever the
+// exponent, so 2E+5 renders "200000" and 1.5E-3 renders "0.0015". Digits are
+// neither trimmed nor rounded — 1.50 stays "1.50". Non-finite values render
+// as String does.
+func (d Decimal) StringPlain() string {
+	if d.form != finite {
+		return d.String()
+	}
+	digits := new(big.Int).Abs(&d.coeff).Text(10)
+	var b strings.Builder
+	if d.sign() {
+		b.WriteByte('-')
+	}
+	switch {
+	case d.exp >= 0:
+		b.WriteString(digits)
+		if d.coeff.Sign() != 0 {
+			b.WriteString(strings.Repeat("0", int(d.exp)))
+		}
+	case int(-d.exp) < len(digits):
+		split := len(digits) + int(d.exp)
+		b.WriteString(digits[:split])
+		b.WriteByte('.')
+		b.WriteString(digits[split:])
+	default:
+		b.WriteString("0.")
+		b.WriteString(strings.Repeat("0", int(-d.exp)-len(digits)))
+		b.WriteString(digits)
+	}
+	return b.String()
+}
